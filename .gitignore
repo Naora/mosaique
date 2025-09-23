@@ -34,3 +34,9 @@ setup.log
 
 # Local OPAM switch
 _opam/
+
+# Test assets (generated images)
+test/assets/*.png
+test/assets/*.jpg
+test/assets/*.jpeg
+test/assets/*.webp

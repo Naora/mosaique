@@ -1,0 +1,4 @@
+(executable
+ (public_name example_image_processing)
+ (name example_image_processing)
+ (libraries mosaique))

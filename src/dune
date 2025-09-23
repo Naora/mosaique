@@ -1,0 +1,12 @@
+(library
+ (public_name mosaique)
+ (name mosaique)
+ (foreign_stubs
+  (language c)
+  (names mosaique_stubs)
+  (flags (:include c_flags.sexp)))
+ (c_library_flags (:include c_library_flags.sexp)))
+
+(rule
+  (targets c_flags.sexp c_library_flags.sexp)
+  (action (run ./config/discover.exe)))

@@ -33,15 +33,6 @@ static value alloc_vips_image(VipsImage *img) {
     return v;
 }
 
-/* Initialize vips */
-value mosaique_init(value unit) {
-    CAMLparam1(unit);
-    if (VIPS_INIT("mosaique")) {
-        vips_error_exit(NULL);
-    }
-    CAMLreturn(Val_unit);
-}
-
 /* Shutdown vips */
 value mosaique_shutdown(value unit) {
     CAMLparam1(unit);
@@ -51,6 +42,10 @@ value mosaique_shutdown(value unit) {
 
 /* Load image from file */
 value mosaique_load(value filename) {
+    if (VIPS_INIT("mosaique")) {
+        vips_error_exit(NULL);
+    }
+
     CAMLparam1(filename);
     CAMLlocal1(result);
     
@@ -96,6 +91,41 @@ value mosaique_save_stub(value img_val, value filename) {
     
     /* Simple save - format determined by extension */
     if (vips_image_write_to_file(img, fname, NULL)) {
+        caml_failwith(vips_error_buffer());
+        vips_error_clear();
+    }
+    
+    CAMLreturn(Val_unit);
+}
+
+/* Save webp to file */
+value mosaique_save_webp(value img_val, value webp, value filename) {
+    CAMLparam3(img_val, webp, filename);
+    
+    VipsImage *img = VipsImage_val(img_val);
+    const char *fname = String_val(filename);
+    int quality = Int_val(webp);
+    
+    /* Simple save - format determined by extension */
+    if (vips_webpsave(img, fname, "Q", quality, NULL)) {
+        caml_failwith(vips_error_buffer());
+        vips_error_clear();
+    }
+    
+    CAMLreturn(Val_unit);
+}
+
+
+/* Save jpeg to file */
+value mosaique_save_jpeg(value img_val, value jpeg, value filename) {
+    CAMLparam3(img_val, jpeg, filename);
+    
+    VipsImage *img = VipsImage_val(img_val);
+    const char *fname = String_val(filename);
+    int quality = Int_val(jpeg);
+    
+    /* Simple save - format determined by extension */
+    if (vips_webpsave(img, fname, "Q", quality, NULL)) {
         caml_failwith(vips_error_buffer());
         vips_error_clear();
     }

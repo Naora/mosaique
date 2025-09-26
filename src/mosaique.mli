@@ -2,60 +2,60 @@
 
 (** {1 Types} *)
 
+type t
 (** Opaque type representing a vips image *)
-type image
 
 (** Image format for saving *)
-type format = 
-  | JPEG of int (** JPEG with quality 1-100 *)
-  | PNG        (** PNG format *)
-  | WEBP of int (** WebP with quality 1-100 *)
+type format =
+  | JPEG of int  (** JPEG with quality 1-100 *)
+  | PNG  (** PNG format *)
+  | WEBP of int  (** WebP with quality 1-100 *)
 
 (** {1 Core Functions} *)
 
-(** Initialize the vips library. Must be called before any other functions. *)
-val init : unit -> unit
-
-(** Shutdown the vips library. Should be called at program exit. *)
 val shutdown : unit -> unit
+(** Shutdown the vips library. Should be called at program exit. Never load a
+    image after
+    [shutdown](https://www.libvips.org/API/current/func.shutdown.html). *)
 
 (** {1 Image Loading and Saving} *)
 
+val load : string -> t
 (** Load an image from file *)
-val load : string -> image
 
+val save : t -> format -> string -> unit
 (** Save an image to file with specified format *)
-val save : image -> format -> string -> unit
 
 (** {1 Image Information} *)
 
+val width : t -> int
 (** Get image width in pixels *)
-val width : image -> int
 
+val height : t -> int
 (** Get image height in pixels *)
-val height : image -> int
 
+val bands : t -> int
 (** Get number of bands (channels) in the image *)
-val bands : image -> int
 
 (** {1 Image Operations} *)
 
+val resize : t -> int -> int -> t
 (** Resize image to specified width and height *)
-val resize : image -> int -> int -> image
 
+val rotate : t -> float -> t
 (** Rotate image by specified angle in degrees *)
-val rotate : image -> float -> image
 
+val grayscale : t -> t
 (** Convert image to grayscale *)
-val grayscale : image -> image
 
+val flip_horizontal : t -> t
 (** Flip image horizontally *)
-val flip_horizontal : image -> image
 
+val flip_vertical : t -> t
 (** Flip image vertically *)
-val flip_vertical : image -> image
 
 (** {1 Error Handling} *)
 
-(** Exception raised by vips operations *)
 exception Vips_error of string
+(** Exception raised by vips operations *)
+

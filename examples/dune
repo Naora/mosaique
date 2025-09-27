@@ -1,0 +1,17 @@
+(executable
+ (public_name vips_version)
+ (name vips_version)
+ (modules vips_version)
+ (libraries mosaique.vips))
+
+(executable
+ (public_name vips_test)
+ (name vips_test)
+ (modules vips_test)
+ (libraries mosaique.vips))
+
+(executable
+ (public_name vips_highlevel)
+ (name vips_highlevel)
+ (modules vips_highlevel)
+ (libraries mosaique.vips))

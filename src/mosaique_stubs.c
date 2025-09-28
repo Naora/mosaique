@@ -125,7 +125,7 @@ value mosaique_save_jpeg(value img_val, value jpeg, value filename) {
     int quality = Int_val(jpeg);
     
     /* Simple save - format determined by extension */
-    if (vips_webpsave(img, fname, "Q", quality, NULL)) {
+    if (vips_jpegsave(img, fname, "Q", quality, NULL)) {
         caml_failwith(vips_error_buffer());
         vips_error_clear();
     }

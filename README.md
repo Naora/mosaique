@@ -10,12 +10,8 @@ Mosaique provides OCaml bindings for [libvips](https://libvips.github.io/libvips
 ## Usage
 
 ```ocaml
-(* Initialize libvips *)
-Mosaique.init ();
-
 (* Load an image *)
 let img = Mosaique.load "input.jpg" in
-
 (* Get image information *)
 Printf.printf "Image: %dx%d pixels, %d bands\n" 
   (Mosaique.width img) (Mosaique.height img) (Mosaique.bands img);

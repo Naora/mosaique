@@ -58,4 +58,3 @@ val flip_vertical : t -> t
 
 exception Vips_error of string
 (** Exception raised by vips operations *)
-

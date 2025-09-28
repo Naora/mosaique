@@ -26,4 +26,3 @@ let save img format filename =
   | JPEG jpeg -> save_jpeg img jpeg filename
   | PNG -> save_stub img filename
   | WEBP webp -> save_webp img webp filename
-

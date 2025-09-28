@@ -1,4 +1,5 @@
-(lang dune 3.0)
+(lang dune 3.20)
+(using ctypes 0.3)
 
 (name mosaique)
 
@@ -12,5 +13,6 @@
  (depends
   ocaml
   dune
+  ctypes-foreign
   (conf-pkg-config :build)
   (conf-libvips :build)))

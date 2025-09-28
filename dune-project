@@ -1,7 +1,8 @@
 (lang dune 3.20)
-(using ctypes 0.3)
 
 (name mosaique)
+
+(generate_opam_files)
 
 (package
  (name mosaique)
@@ -12,7 +13,4 @@
  (license MIT)
  (depends
   ocaml
-  dune
-  ctypes-foreign
-  (conf-pkg-config :build)
-  (conf-libvips :build)))
+  dune))

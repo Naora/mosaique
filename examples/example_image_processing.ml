@@ -3,7 +3,6 @@ let () =
   let base = "examples" in
   let assets_dir = Filename.concat base "assets" in
   let output_dir = Filename.concat base "output" in
-  if not (Sys.file_exists output_dir) then Sys.mkdir output_dir 755;
 
   try
     (* Load test image *)

@@ -3,6 +3,10 @@ and format = JPEG of jpeg | PNG | WEBP of webp
 and jpeg = int
 and webp = int
 
+external init : string -> unit = "mosaique_init"
+
+let () = init Sys.argv.(0)
+
 exception Vips_error of string
 
 (* External C function declarations *)

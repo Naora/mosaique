@@ -33,19 +33,24 @@ static value alloc_vips_image(VipsImage *img) {
     return v;
 }
 
-/* Shutdown vips */
+value mosaique_init(value argv0) {
+    CAMLparam1(argv0);
+
+    const char *argv0_cstr = String_val(argv0);
+
+    if (VIPS_INIT(argv0_cstr)) {
+        vips_error_exit(NULL);
+    }
+    CAMLreturn(Val_unit);
+}
+
 value mosaique_shutdown(value unit) {
     CAMLparam1(unit);
     vips_shutdown();
     CAMLreturn(Val_unit);
 }
 
-/* Load image from file */
 value mosaique_load(value filename) {
-    if (VIPS_INIT("mosaique")) {
-        vips_error_exit(NULL);
-    }
-
     CAMLparam1(filename);
     CAMLlocal1(result);
     
@@ -61,35 +66,30 @@ value mosaique_load(value filename) {
     CAMLreturn(result);
 }
 
-/* Get image width */
 value mosaique_width(value img_val) {
     CAMLparam1(img_val);
     VipsImage *img = VipsImage_val(img_val);
     CAMLreturn(Val_int(vips_image_get_width(img)));
 }
 
-/* Get image height */
 value mosaique_height(value img_val) {
     CAMLparam1(img_val);
     VipsImage *img = VipsImage_val(img_val);
     CAMLreturn(Val_int(vips_image_get_height(img)));
 }
 
-/* Get image bands */
 value mosaique_bands(value img_val) {
     CAMLparam1(img_val);
     VipsImage *img = VipsImage_val(img_val);
     CAMLreturn(Val_int(vips_image_get_bands(img)));
 }
 
-/* Save image to file */
 value mosaique_save_stub(value img_val, value filename) {
     CAMLparam2(img_val, filename);
     
     VipsImage *img = VipsImage_val(img_val);
     const char *fname = String_val(filename);
     
-    /* Simple save - format determined by extension */
     if (vips_image_write_to_file(img, fname, NULL)) {
         caml_failwith(vips_error_buffer());
         vips_error_clear();
@@ -98,7 +98,6 @@ value mosaique_save_stub(value img_val, value filename) {
     CAMLreturn(Val_unit);
 }
 
-/* Save webp to file */
 value mosaique_save_webp(value img_val, value webp, value filename) {
     CAMLparam3(img_val, webp, filename);
     
@@ -106,7 +105,6 @@ value mosaique_save_webp(value img_val, value webp, value filename) {
     const char *fname = String_val(filename);
     int quality = Int_val(webp);
     
-    /* Simple save - format determined by extension */
     if (vips_webpsave(img, fname, "Q", quality, NULL)) {
         caml_failwith(vips_error_buffer());
         vips_error_clear();
@@ -116,7 +114,6 @@ value mosaique_save_webp(value img_val, value webp, value filename) {
 }
 
 
-/* Save jpeg to file */
 value mosaique_save_jpeg(value img_val, value jpeg, value filename) {
     CAMLparam3(img_val, jpeg, filename);
     
@@ -124,7 +121,6 @@ value mosaique_save_jpeg(value img_val, value jpeg, value filename) {
     const char *fname = String_val(filename);
     int quality = Int_val(jpeg);
     
-    /* Simple save - format determined by extension */
     if (vips_jpegsave(img, fname, "Q", quality, NULL)) {
         caml_failwith(vips_error_buffer());
         vips_error_clear();
@@ -133,7 +129,6 @@ value mosaique_save_jpeg(value img_val, value jpeg, value filename) {
     CAMLreturn(Val_unit);
 }
 
-/* Resize image */
 value mosaique_resize(value img_val, value width_val, value height_val) {
     CAMLparam3(img_val, width_val, height_val);
     CAMLlocal1(result);
@@ -155,7 +150,6 @@ value mosaique_resize(value img_val, value width_val, value height_val) {
     CAMLreturn(result);
 }
 
-/* Rotate image */
 value mosaique_rotate(value img_val, value angle_val) {
     CAMLparam2(img_val, angle_val);
     CAMLlocal1(result);
@@ -173,7 +167,6 @@ value mosaique_rotate(value img_val, value angle_val) {
     CAMLreturn(result);
 }
 
-/* Convert to grayscale */
 value mosaique_grayscale(value img_val) {
     CAMLparam1(img_val);
     CAMLlocal1(result);
@@ -190,7 +183,6 @@ value mosaique_grayscale(value img_val) {
     CAMLreturn(result);
 }
 
-/* Flip horizontal */
 value mosaique_flip_horizontal(value img_val) {
     CAMLparam1(img_val);
     CAMLlocal1(result);
@@ -207,7 +199,6 @@ value mosaique_flip_horizontal(value img_val) {
     CAMLreturn(result);
 }
 
-/* Flip vertical */
 value mosaique_flip_vertical(value img_val) {
     CAMLparam1(img_val);
     CAMLlocal1(result);

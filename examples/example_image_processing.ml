@@ -1,7 +1,7 @@
 let () =
   print_endline "=== Mosaique OCaml libvips Example ===";
   let base = "examples" in
-  let assets_dir = Filename.concat base "assets" in
+  let assets_dir = "assets" in
   let output_dir = Filename.concat base "output" in
 
   try
@@ -11,7 +11,7 @@ let () =
       (Mosaique.height img) (Mosaique.bands img);
 
     (* Resize the image *)
-    let resized = Mosaique.resize img 100 100 in
+    let resized = Mosaique.resize img ~width:100 ~height:100 in
     Printf.printf "Resized to: %dx%d pixels\n" (Mosaique.width resized)
       (Mosaique.height resized);
 

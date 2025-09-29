@@ -39,7 +39,7 @@ val bands : t -> int
 
 (** {1 Image Operations} *)
 
-val resize : t -> int -> int -> t
+val resize : t -> width:int -> height:int -> t
 (** Resize image to specified width and height *)
 
 val rotate : t -> float -> t

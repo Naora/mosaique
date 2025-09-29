@@ -1,4 +1,0 @@
-(executable
- (public_name test_mosaique)
- (name test_mosaique)
- (libraries mosaique))

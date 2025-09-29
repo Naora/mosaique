@@ -1,4 +1,5 @@
 (lang dune 3.20)
+(cram enable)
 
 (name mosaique)
 

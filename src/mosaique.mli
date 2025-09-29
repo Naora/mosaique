@@ -14,9 +14,7 @@ type format =
 (** {1 Core Functions} *)
 
 val shutdown : unit -> unit
-(** Shutdown the vips library. Should be called at program exit. Never load a
-    image after
-    [shutdown](https://www.libvips.org/API/current/func.shutdown.html). *)
+(** Shutdown the vips library. Should be called at program exit. *)
 
 (** {1 Image Loading and Saving} *)
 

@@ -17,7 +17,7 @@ Printf.printf "Image: %dx%d pixels, %d bands\n"
   (Mosaique.width img) (Mosaique.height img) (Mosaique.bands img);
 
 (* Resize the image *)
-let resized = Mosaique.resize img 800 600 in
+let resized = Mosaique.resize img ~width:800 ~height:600 in
 
 (* Convert to grayscale *)
 let gray = Mosaique.grayscale resized in

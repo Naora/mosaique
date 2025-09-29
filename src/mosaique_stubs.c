@@ -5,6 +5,7 @@
 #include <caml/custom.h>
 #include <caml/fail.h>
 #include <caml/callback.h>
+#include <string.h>
 
 /* Custom block for VipsImage */
 #define VipsImage_val(v) (*((VipsImage **) Data_custom_val(v)))
@@ -58,8 +59,8 @@ value mosaique_load(value filename) {
     const char *fname = String_val(filename);
     
     if (!(img = vips_image_new_from_file(fname, NULL))) {
-        caml_failwith(vips_error_buffer());
-        vips_error_clear();
+        char* message = vips_error_buffer_copy();
+        caml_failwith(message);
     }
     
     result = alloc_vips_image(img);
@@ -91,8 +92,8 @@ value mosaique_save_stub(value img_val, value filename) {
     const char *fname = String_val(filename);
     
     if (vips_image_write_to_file(img, fname, NULL)) {
-        caml_failwith(vips_error_buffer());
-        vips_error_clear();
+        char* message = vips_error_buffer_copy();
+        caml_failwith(message);
     }
     
     CAMLreturn(Val_unit);
@@ -106,8 +107,8 @@ value mosaique_save_webp(value img_val, value webp, value filename) {
     int quality = Int_val(webp);
     
     if (vips_webpsave(img, fname, "Q", quality, NULL)) {
-        caml_failwith(vips_error_buffer());
-        vips_error_clear();
+        char* message = vips_error_buffer_copy();
+        caml_failwith(message);
     }
     
     CAMLreturn(Val_unit);
@@ -122,8 +123,8 @@ value mosaique_save_jpeg(value img_val, value jpeg, value filename) {
     int quality = Int_val(jpeg);
     
     if (vips_jpegsave(img, fname, "Q", quality, NULL)) {
-        caml_failwith(vips_error_buffer());
-        vips_error_clear();
+        char* message = vips_error_buffer_copy();
+        caml_failwith(message);
     }
     
     CAMLreturn(Val_unit);
@@ -142,8 +143,8 @@ value mosaique_resize(value img_val, value width_val, value height_val) {
     double vscale = (double)height / vips_image_get_height(img);
     
     if (vips_resize(img, &out, hscale, "vscale", vscale, NULL)) {
-        caml_failwith(vips_error_buffer());
-        vips_error_clear();
+        char* message = vips_error_buffer_copy();
+        caml_failwith(message);
     }
     
     result = alloc_vips_image(out);
@@ -159,8 +160,8 @@ value mosaique_rotate(value img_val, value angle_val) {
     double angle = Double_val(angle_val);
     
     if (vips_rotate(img, &out, angle, NULL)) {
-        caml_failwith(vips_error_buffer());
-        vips_error_clear();
+        char* message = vips_error_buffer_copy();
+        caml_failwith(message);
     }
     
     result = alloc_vips_image(out);
@@ -175,8 +176,8 @@ value mosaique_grayscale(value img_val) {
     VipsImage *out;
     
     if (vips_colourspace(img, &out, VIPS_INTERPRETATION_B_W, NULL)) {
-        caml_failwith(vips_error_buffer());
-        vips_error_clear();
+        char* message = vips_error_buffer_copy();
+        caml_failwith(message);
     }
     
     result = alloc_vips_image(out);
@@ -191,8 +192,8 @@ value mosaique_flip_horizontal(value img_val) {
     VipsImage *out;
     
     if (vips_flip(img, &out, VIPS_DIRECTION_HORIZONTAL, NULL)) {
-        caml_failwith(vips_error_buffer());
-        vips_error_clear();
+        char* message = vips_error_buffer_copy();
+        caml_failwith(message);
     }
     
     result = alloc_vips_image(out);
@@ -207,8 +208,8 @@ value mosaique_flip_vertical(value img_val) {
     VipsImage *out;
     
     if (vips_flip(img, &out, VIPS_DIRECTION_VERTICAL, NULL)) {
-        caml_failwith(vips_error_buffer());
-        vips_error_clear();
+        char* message = vips_error_buffer_copy();
+        caml_failwith(message);
     }
     
     result = alloc_vips_image(out);

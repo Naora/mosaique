@@ -28,5 +28,5 @@ build: [
 ]
 x-maintenance-intent: ["(latest)"]
 depexts: [ 
-  "libvips-dev"  { os-family = "debian" } 
+  ["libvips-dev"]{ os-family = "debian" | os-family = "ubuntu" } 
 ]

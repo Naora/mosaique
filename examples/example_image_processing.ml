@@ -1,7 +1,7 @@
 let () =
   print_endline "=== Mosaique OCaml libvips Example ===";
   let base = "examples" in
-  let assets_dir = "assets" in
+  let assets_dir = Filename.concat base "assets" in
   let output_dir = Filename.concat base "output" in
 
   try

@@ -14,4 +14,5 @@
  (license MIT)
  (depends
   ocaml
+  dune-configurator
   dune))

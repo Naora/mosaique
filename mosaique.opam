@@ -6,6 +6,8 @@ description:
 maintainer: ["Naora"]
 authors: ["Naora"]
 license: "MIT"
+homepage: "github.com/Naora/mosaique"
+bug-reports: "github.com/Naora/mosaique/issues"
 depends: [
   "ocaml"
   "dune-configurator"

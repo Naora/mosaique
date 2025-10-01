@@ -2,6 +2,8 @@
 (cram enable)
 
 (name mosaique)
+(homepage "github.com/Naora/mosaique")
+(bug_reports "github.com/Naora/mosaique/issues")
 
 (generate_opam_files)
 

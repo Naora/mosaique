@@ -7,7 +7,6 @@
 #include <caml/callback.h>
 #include <string.h>
 
-/* Custom block for VipsImage */
 #define VipsImage_val(v) (*((VipsImage **) Data_custom_val(v)))
 
 static void vips_image_finalize(value v) {

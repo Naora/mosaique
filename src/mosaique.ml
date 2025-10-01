@@ -9,7 +9,6 @@ let () = init Sys.argv.(0)
 
 exception Vips_error of string
 
-(* External C function declarations *)
 external shutdown : unit -> unit = "mosaique_shutdown"
 external load : string -> t = "mosaique_load"
 external save_stub : t -> string -> unit = "mosaique_save_stub"
@@ -24,7 +23,6 @@ external grayscale : t -> t = "mosaique_grayscale"
 external flip_horizontal : t -> t = "mosaique_flip_horizontal"
 external flip_vertical : t -> t = "mosaique_flip_vertical"
 
-(* For now, we'll ignore the format parameter in save and rely on file extension *)
 let save img format filename =
   match format with
   | JPEG jpeg -> save_jpeg img jpeg filename

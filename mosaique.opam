@@ -3,8 +3,8 @@ opam-version: "2.0"
 synopsis: "OCaml bindings for libvips image processing library"
 description:
   "OCaml bindings for libvips providing image loading, saving, and transformation operations"
-maintainer: ["Naora"]
-authors: ["Naora"]
+maintainer: ["Joris Gundermann"]
+authors: ["Joris Gundermann"]
 license: "MIT"
 homepage: "github.com/Naora/mosaique"
 bug-reports: "github.com/Naora/mosaique/issues"
@@ -29,4 +29,5 @@ build: [
     "@doc" {with-doc}
   ]
 ]
+dev-repo: "git+https://github.com/Naora/mosaique.git"
 x-maintenance-intent: ["(latest)"]

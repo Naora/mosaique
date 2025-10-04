@@ -1,3 +1,0 @@
-depexts: [ 
-  ["libvips-dev"]{ os-family = "debian" | os-family = "ubuntu" } 
-]

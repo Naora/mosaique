@@ -17,4 +17,5 @@
  (depends
   ocaml
   dune-configurator
+  conf-vips
   dune))

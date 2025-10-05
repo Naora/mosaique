@@ -9,7 +9,7 @@ license: "MIT"
 homepage: "github.com/Naora/mosaique"
 bug-reports: "github.com/Naora/mosaique/issues"
 depends: [
-  "ocaml"
+  "ocaml" {<= "5.0"}
   "dune-configurator"
   "conf-vips"
   "dune" {>= "3.20"}

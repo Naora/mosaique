@@ -1,4 +1,4 @@
-# Vips - OCaml bindings for libvips
+# Mosaique - OCaml bindings for libvips
 
 Mosaique provides OCaml bindings for [libvips](https://libvips.github.io/libvips/), a fast image processing library. It allows you to load, manipulate, and save images using OCaml.
 

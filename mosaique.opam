@@ -6,8 +6,8 @@ description:
 maintainer: ["Joris Gundermann"]
 authors: ["Joris Gundermann"]
 license: "MIT"
-homepage: "github.com/Naora/mosaique"
-bug-reports: "github.com/Naora/mosaique/issues"
+homepage: "https://github.com/Naora/mosaique"
+bug-reports: "https://github.com/Naora/mosaique/issues"
 depends: [
   "ocaml" {>= "5.0"}
   "dune-configurator"

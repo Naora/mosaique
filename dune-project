@@ -7,8 +7,8 @@
 (authors "Joris Gundermann")
 (maintainers "Joris Gundermann")
 
-(homepage "github.com/Naora/mosaique")
-(bug_reports "github.com/Naora/mosaique/issues")
+(homepage "https://github.com/Naora/mosaique")
+(bug_reports "https://github.com/Naora/mosaique/issues")
 
 (license MIT)
 

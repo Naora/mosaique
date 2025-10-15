@@ -1,7 +1,24 @@
 type t
-and format = JPEG of jpeg | PNG | WEBP of webp
+
+type format = JPEG of jpeg | Auto | WEBP of webp
 and jpeg = int
 and webp = int
+and direction = Horizontal | Vertical
+
+module Transformations = struct
+  type t = op list
+
+  and op =
+    | Resize of int * int
+    | Rotate of float
+    | Grayscale
+    | Flip of direction
+
+  let grayscale t = t @ [ Grayscale ]
+  let flip direction t = t @ [ Flip direction ]
+  let rotate angle t = t @ [ Rotate angle ]
+  let resize ~width ~height t = t @ [ Resize (width, height) ]
+end
 
 external init : string -> unit = "mosaique_init"
 
@@ -20,11 +37,11 @@ external bands : t -> int = "mosaique_bands"
 external resize : t -> width:int -> height:int -> t = "mosaique_resize"
 external rotate : t -> float -> t = "mosaique_rotate"
 external grayscale : t -> t = "mosaique_grayscale"
-external flip_horizontal : t -> t = "mosaique_flip_horizontal"
-external flip_vertical : t -> t = "mosaique_flip_vertical"
+external flip : direction -> t -> t = "mosaique_flip"
+external run : t -> Transformations.t -> t = "mosaique_run"
 
 let save img format filename =
   match format with
+  | Auto -> save_stub img filename
   | JPEG jpeg -> save_jpeg img jpeg filename
-  | PNG -> save_stub img filename
   | WEBP webp -> save_webp img webp filename

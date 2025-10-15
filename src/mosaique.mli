@@ -8,8 +8,36 @@ type t
 (** Image format for saving *)
 type format =
   | JPEG of int  (** JPEG with quality 1-100 *)
-  | PNG  (** PNG format *)
+  | Auto  (** format is deduced from the filename *)
   | WEBP of int  (** WebP with quality 1-100 *)
+
+type direction = Horizontal | Vertical  (** Direction for flipping *)
+
+(** {1 Transformations} *)
+
+module Transformations : sig
+  type t = op list
+  (** Type representing a sequence of image transformations *)
+
+  (** Image operation types *)
+  and op =
+    | Resize of int * int
+    | Rotate of float
+    | Grayscale
+    | Flip of direction
+
+  val grayscale : t -> t
+  (** Functions to build a list of transformations *)
+
+  val flip : direction -> t -> t
+  (** Flip direction *)
+
+  val rotate : float -> t -> t
+  (** Rotate angle in degrees *)
+
+  val resize : width:int -> height:int -> t -> t
+  (** Resize to width and height *)
+end
 
 (** {1 Core Functions} *)
 
@@ -46,11 +74,11 @@ val rotate : t -> float -> t
 val grayscale : t -> t
 (** Convert image to grayscale *)
 
-val flip_horizontal : t -> t
-(** Flip image horizontally *)
+val flip : direction -> t -> t
+(** Flip image in specified direction *)
 
-val flip_vertical : t -> t
-(** Flip image vertically *)
+val run : t -> Transformations.t -> t
+(** Apply a sequence of transformations to an image *)
 
 (** {1 Error Handling} *)
 

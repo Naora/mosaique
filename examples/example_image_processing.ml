@@ -27,13 +27,13 @@ let () =
     print_endline "Saved grayscale image to grayscale_image.png";
 
     (* Flip horizontally *)
-    let flipped = Mosaique.flip Horizontal img in
+    let flipped = Mosaique.flip img Horizontal in
     Mosaique.save flipped Mosaique.Auto
     @@ Filename.concat output_dir "flipped_image.png";
     print_endline "Saved horizontally flipped image to flipped_image.png";
 
     (* FLIP vertically *)
-    let vflipped = Mosaique.flip Vertical img in
+    let vflipped = Mosaique.flip img Vertical in
     Mosaique.save vflipped Mosaique.Auto
     @@ Filename.concat output_dir "vflipped_image.png";
     print_endline "Saved vertically flipped image to vflipped_image.png";

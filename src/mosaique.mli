@@ -74,7 +74,7 @@ val rotate : t -> float -> t
 val grayscale : t -> t
 (** Convert image to grayscale *)
 
-val flip : direction -> t -> t
+val flip : t -> direction -> t
 (** Flip image in specified direction *)
 
 val run : t -> Transformations.t -> t

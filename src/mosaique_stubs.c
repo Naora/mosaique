@@ -227,8 +227,8 @@ VipsImage* flip(VipsImage* img, int direction) {
     return out;
 }
 
-value mosaique_flip(value direction_val, value img_val) {
-    CAMLparam2(direction_val, img_val);
+value mosaique_flip(value img_val, value direction_val) {
+    CAMLparam2(img_val, direction_val);
     CAMLlocal1(result);
     
     VipsImage *img = VipsImage_val(img_val);

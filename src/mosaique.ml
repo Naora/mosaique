@@ -37,7 +37,7 @@ external bands : t -> int = "mosaique_bands"
 external resize : t -> width:int -> height:int -> t = "mosaique_resize"
 external rotate : t -> float -> t = "mosaique_rotate"
 external grayscale : t -> t = "mosaique_grayscale"
-external flip : direction -> t -> t = "mosaique_flip"
+external flip : t -> direction -> t = "mosaique_flip"
 external run : t -> Transformations.t -> t = "mosaique_run"
 
 let save img format filename =

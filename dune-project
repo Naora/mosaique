@@ -22,4 +22,5 @@
   (ocaml (>= "5.0"))
   dune-configurator
   conf-vips
+  camlid
   dune))

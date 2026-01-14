@@ -1,4 +1,4 @@
-type t
+type t = Mosaique_bindings.t
 
 type format = JPEG of jpeg | Auto | WEBP of webp
 and jpeg = int
@@ -20,25 +20,48 @@ module Transformations = struct
   let resize ~width ~height t = t @ [ Resize (width, height) ]
 end
 
-external init : string -> unit = "mosaique_init"
-
-let () = init Sys.argv.(0)
+(* Initialize on module load *)
+let () = Mosaique_bindings.init Sys.argv.(0)
 
 exception Vips_error of string
 
-external shutdown : unit -> unit = "mosaique_shutdown"
-external load : string -> t = "mosaique_load"
-external save_stub : t -> string -> unit = "mosaique_save_stub"
-external save_webp : t -> webp -> string -> unit = "mosaique_save_webp"
-external save_jpeg : t -> jpeg -> string -> unit = "mosaique_save_jpeg"
-external width : t -> int = "mosaique_width"
-external height : t -> int = "mosaique_height"
-external bands : t -> int = "mosaique_bands"
-external resize : t -> width:int -> height:int -> t = "mosaique_resize"
-external rotate : t -> float -> t = "mosaique_rotate"
-external grayscale : t -> t = "mosaique_grayscale"
-external flip : t -> direction -> t = "mosaique_flip"
-external run : t -> Transformations.t -> t = "mosaique_run"
+(* Re-export bindings *)
+let shutdown = Mosaique_bindings.shutdown
+let load = Mosaique_bindings.load
+let save_stub = Mosaique_bindings.save_stub
+let save_webp = Mosaique_bindings.save_webp
+let save_jpeg = Mosaique_bindings.save_jpeg
+let width = Mosaique_bindings.width
+let height = Mosaique_bindings.height
+let bands = Mosaique_bindings.bands
+
+(* Labeled argument wrappers *)
+let resize img ~width ~height = Mosaique_bindings.resize img width height
+let rotate img angle = Mosaique_bindings.rotate img angle
+let grayscale = Mosaique_bindings.grayscale
+
+(* Direction conversion helper *)
+let direction_to_int = function
+  | Horizontal -> 1  (* VIPS_DIRECTION_HORIZONTAL *)
+  | Vertical -> 2    (* VIPS_DIRECTION_VERTICAL *)
+
+let flip img direction = 
+  Mosaique_bindings.flip img (direction_to_int direction)
+
+(* Pipeline runner - needs to be implemented *)
+let run img pipeline =
+  let rec apply_ops img = function
+    | [] -> img
+    | op :: rest ->
+        let img' = match op with
+          | Transformations.Resize (w, h) -> resize img ~width:w ~height:h
+          | Transformations.Rotate angle -> rotate img angle
+          | Transformations.Grayscale -> grayscale img
+          | Transformations.Flip dir -> flip img dir
+        in
+        apply_ops img' rest
+  in
+  apply_ops img pipeline
 
 let save img format filename =
   match format with

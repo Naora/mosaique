@@ -1,9 +1,16 @@
+(rule
+ (targets mosaique_bindings_stub.c mosaique_bindings.ml)
+ (action
+  (run %{exe:generator/generator.exe}))
+ (mode
+  (promote (until-clean))))
+
 (library
  (public_name mosaique)
  (name mosaique)
  (foreign_stubs
   (language c)
-  (names mosaique_stubs)
+  (names mosaique_bindings_stub mosaique_c)
   (flags (-fPIC (:include c_flags.sexp))))
  (c_library_flags (:include c_library_flags.sexp)))
 

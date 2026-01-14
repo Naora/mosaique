@@ -48,7 +48,7 @@ let direction_to_int = function
 let flip img direction = 
   Mosaique_bindings.flip img (direction_to_int direction)
 
-(* Pipeline runner - needs to be implemented *)
+(* Pipeline runner *)
 let run img pipeline =
   let rec apply_ops img = function
     | [] -> img

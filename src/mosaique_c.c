@@ -12,10 +12,12 @@
 static void raise_vips_error(void) {
     char *vips_err = vips_error_buffer_copy();
     if (vips_err) {
-        /* caml_failwith makes a copy of the string, so we can free immediately */
-        caml_failwith(vips_err);
-        /* Note: free not needed as caml_failwith doesn't return, but vips_error_buffer_copy
-         * docs say we should free it. This is a known limitation - we leak on error. */
+        /* Use a stack buffer to avoid the memory leak.
+         * VIPS error messages are typically short. */
+        char msg[1024];
+        snprintf(msg, sizeof(msg), "%s", vips_err);
+        free(vips_err);
+        caml_failwith(msg);
     } else {
         caml_failwith("Unknown VIPS error");
     }

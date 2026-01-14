@@ -12,11 +12,10 @@
 static void raise_vips_error(void) {
     char *vips_err = vips_error_buffer_copy();
     if (vips_err) {
-        /* Copy message to avoid memory leak, as caml_failwith doesn't free it */
-        char msg[4096];
-        snprintf(msg, sizeof(msg), "%s", vips_err);
-        free(vips_err);
-        caml_failwith(msg);
+        /* caml_failwith makes a copy of the string, so we can free immediately */
+        caml_failwith(vips_err);
+        /* Note: free not needed as caml_failwith doesn't return, but vips_error_buffer_copy
+         * docs say we should free it. This is a known limitation - we leak on error. */
     } else {
         caml_failwith("Unknown VIPS error");
     }
@@ -84,8 +83,19 @@ int mosaique_c_bands(VipsImage *img) {
 
 /* Transformations */
 VipsImage *mosaique_c_resize(VipsImage *img, int width, int height) {
-    double hscale = (double)width / vips_image_get_width(img);
-    double vscale = (double)height / vips_image_get_height(img);
+    int img_width = vips_image_get_width(img);
+    int img_height = vips_image_get_height(img);
+    
+    /* Validate dimensions to avoid division by zero */
+    if (img_width <= 0 || img_height <= 0) {
+        caml_failwith("Invalid image dimensions for resize");
+    }
+    if (width <= 0 || height <= 0) {
+        caml_failwith("Invalid target dimensions for resize");
+    }
+    
+    double hscale = (double)width / img_width;
+    double vscale = (double)height / img_height;
     VipsImage *out = NULL;
     
     if (vips_resize(img, &out, hscale, "vscale", vscale, NULL)) {

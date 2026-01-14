@@ -42,8 +42,8 @@ let grayscale = Mosaique_bindings.grayscale
 
 (* Direction conversion helper *)
 let direction_to_int = function
-  | Horizontal -> 1  (* VIPS_DIRECTION_HORIZONTAL *)
-  | Vertical -> 2    (* VIPS_DIRECTION_VERTICAL *)
+  | Horizontal -> 0  (* VIPS_DIRECTION_HORIZONTAL *)
+  | Vertical -> 1    (* VIPS_DIRECTION_VERTICAL *)
 
 let flip img direction = 
   Mosaique_bindings.flip img (direction_to_int direction)

@@ -13,7 +13,7 @@ static void raise_vips_error(void) {
     char *vips_err = vips_error_buffer_copy();
     if (vips_err) {
         caml_failwith(vips_err);
-        free(vips_err);  /* Never reached, but good practice */
+        /* Never reached - caml_failwith doesn't return */
     } else {
         caml_failwith("Unknown VIPS error");
     }

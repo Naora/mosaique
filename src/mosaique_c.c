@@ -12,8 +12,11 @@
 static void raise_vips_error(void) {
     char *vips_err = vips_error_buffer_copy();
     if (vips_err) {
-        caml_failwith(vips_err);
-        /* Never reached - caml_failwith doesn't return */
+        /* Copy message to avoid memory leak, as caml_failwith doesn't free it */
+        char msg[4096];
+        snprintf(msg, sizeof(msg), "%s", vips_err);
+        free(vips_err);
+        caml_failwith(msg);
     } else {
         caml_failwith("Unknown VIPS error");
     }
